@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  INTERVIEWER
+  CANDIDATE
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum RoomStatus {
+  ACTIVE 
+  ENDED
+}
+
+enum SubmissionStatus {
+  ACCEPTED
+  WRONG_ANSWER
+  ERROR
+}
+
+model User {
+  id            String    @id   @default(uuid())
+  name          String    
+  email         String    @unique
+  password      String    
+  role          UserRole
+  createdAt     DateTime  @default(now())
+
+  rooms         Room[]    @relation("RoomCreator")
+  participants  RoomParticipant[]
+  submissions   Submission[]
+  messages      Message[]
+}
+
+model Problem {
+  id          String    @id   @default(uuid())
+  title       String    
+  description String  
+  difficulty  Difficulty
+  createdAt   DateTime  @default(now())
+
+  testCases   TestCase[]
+  rooms       Room[]
+  submissions Submission[]
+}
+
+model TestCase {
+  id              String    @id   @default(uuid())
+  problemId       String
+  problem         Problem   @relation(fields: [problemId], references: [id])
+
+  input           String
+  expectedOutput  String
+  isHidden        Boolean   @default(false)
+  orderIndex      Int
+}
+
+model Room {
+  id              String    @id   @default(uuid())
+  problemId       String
+  status          RoomStatus
+  createdBy       String
+  createdAt       DateTime  @default(now())
+
+  problem         Problem   @relation(fields: [problemId], references: [id])
+  creator         User      @relation("RoomCreator", fields: [createdBy], references: [id])
+
+  participants    RoomParticipant[]
+  state           RoomState?
+  submissions     Submission[]
+  messages        Message[]
+}
+
+model RoomParticipant {
+  id              String    @id   @default(uuid())
+  roomId          String
+  userId          String
+  role            UserRole
+  joinedAt        DateTime  @default(now())  
+
+  room            Room      @relation(fields: [roomId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
+
+  @@unique([roomId,userId])
+}
+
+model RoomState {
+  roomId          String    @id
+  code            String
+  language        String
+  updatedAt       DateTime  @updatedAt
+
+  room            Room      @relation(fields: [roomId], references: [id])
+}
+
+model Submission{
+  id              String    @id   @default(uuid())
+  userId          String
+  problemId       String
+  roomId          String?
+
+  code            String
+  language        String
+  status          SubmissionStatus
+  runtime         Float?
+  createdAt       DateTime  @default(now())
+
+  user            User      @relation(fields: [userId], references: [id])
+  problem         Problem   @relation(fields: [problemId], references: [id])
+  room            Room?     @relation(fields: [roomId], references: [id])
+}
+
+model Message{
+  id              String    @id   @default(uuid())
+  roomId          String
+  senderId        String
+  message         String
+  createdAt       DateTime  @default(now())
+
+  room            Room      @relation(fields: [roomId], references: [id])
+  sender          User      @relation(fields: [senderId], references: [id])
+
+  @@index([roomId, createdAt])
+}

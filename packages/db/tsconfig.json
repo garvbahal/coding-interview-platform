@@ -2,12 +2,12 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": ".",
+    "rootDir": "./src",
     "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+    "module": "es2022",
     "target": "esnext",
     "types": ["node"],
     // For nodejs:
@@ -41,5 +41,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "prisma.config.ts"]
+  "include": ["src"]
 }

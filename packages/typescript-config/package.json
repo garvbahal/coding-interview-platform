@@ -5,5 +5,9 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "exports": {
+    "./backend": "./backend.json",
+    "./nextjs": "./nextjs.json"
   }
 }

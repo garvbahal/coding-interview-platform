@@ -1,9 +1,14 @@
 import type { Request, Response } from "express";
-import { loginSchema, signupSchema } from "../validations/auth.validator.js";
+import {
+  googleAuthSchema,
+  loginSchema,
+  signupSchema,
+} from "../validations/auth.validator.js";
 import { prisma } from "@repo/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import type { JwtPayload } from "../types/JwtPayload.js";
+import { OAuth2Client } from "google-auth-library";
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -137,6 +142,87 @@ export const login = async (req: Request, res: Response) => {
       success: false,
       message: "Something went wrong while logging in",
       error: error,
+    });
+  }
+};
+
+export const googleAuth = async (req: Request, res: Response) => {
+  try {
+    //zod validation of google auth token
+    const { success, error, data } = googleAuthSchema.safeParse(req.body);
+
+    if (!success) {
+      return res.status(400).json({
+        success: false,
+        message: "Google Auth token is missing",
+        errors: error.flatten(),
+      });
+    }
+
+    const { token } = data;
+
+    //verifying the token
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID!,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload || !payload.email) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Google Token",
+      });
+    }
+
+    //finding user already exists or not
+    let user = await prisma.user.findUnique({
+      where: {
+        email: payload?.email!,
+      },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          email: payload?.email!,
+          name: payload?.name!,
+          role: "CANDIDATE",
+          password: null,
+        },
+      });
+    }
+
+    //creating jwt token
+    const jwtPayload: JwtPayload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    const jwtToken = jwt.sign(jwtPayload, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
+
+    //setting jwt cookie
+    res.cookie("auth-cookie", jwtToken, {
+      httpOnly: true,
+      //   secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "lax",
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User Logged in successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while google signup",
     });
   }
 };

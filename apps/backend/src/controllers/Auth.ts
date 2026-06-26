@@ -62,6 +62,7 @@ export const signup = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
+    console.log("SignupError: ", error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong while signing up with credentials",
@@ -111,6 +112,7 @@ export const login = async (req: Request, res: Response) => {
     if (await bcrypt.compare(password, user.password)) {
       const jwtPayload: JwtPayload = {
         id: user.id,
+        name: user.name,
         email: user.email,
         role: user.role,
       };
@@ -199,6 +201,7 @@ export const googleAuth = async (req: Request, res: Response) => {
     //creating jwt token
     const jwtPayload: JwtPayload = {
       id: user.id,
+      name: user.name,
       email: user.email,
       role: user.role,
     };
@@ -223,6 +226,21 @@ export const googleAuth = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while google signup",
+    });
+  }
+};
+
+export const getAuthDetails = async (req: Request, res: Response) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      user: req.user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching user details",
     });
   }
 };

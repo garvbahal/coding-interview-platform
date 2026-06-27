@@ -1,8 +1,8 @@
-"use client";
 import Link from "next/link";
 import { SignupForm } from "./SignupForm";
 import { LoginForm } from "./LoginForm";
 import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLoginButton } from "./GoogleLoginButton";
 
 type RightPanelProps = {
   isSignup: boolean;
@@ -66,13 +66,7 @@ export const RightPanel = ({ isSignup }: RightPanelProps) => {
             </div>
           </div>
 
-          <button className="mt-6  w-full rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-colors">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log(credentialResponse);
-              }}
-            />
-          </button>
+          <GoogleLoginButton />
         </div>
       </div>
     </div>

@@ -43,3 +43,12 @@ export type LogoutResponse = {
   success: string;
   message: string;
 };
+
+export type GoogleSignupData = {
+  token: string;
+};
+
+export type GoogleSignupResponse = {
+  success: string;
+  message: string;
+};

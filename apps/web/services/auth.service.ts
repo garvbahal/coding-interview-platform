@@ -1,6 +1,8 @@
 import axios from "axios";
 import {
   AuthCookieResponse,
+  GoogleSignupData,
+  GoogleSignupResponse,
   LoginData,
   LoginResponse,
   LogoutResponse,
@@ -51,6 +53,19 @@ export const logoutUser = async (): Promise<LogoutResponse> => {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/logout`,
     {},
     { withCredentials: true },
+  );
+  return response.data;
+};
+
+export const googleSignup = async (
+  data: GoogleSignupData,
+): Promise<GoogleSignupResponse> => {
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google`,
+    data,
+    {
+      withCredentials: true,
+    },
   );
   return response.data;
 };

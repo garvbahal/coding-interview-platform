@@ -1,6 +1,5 @@
 import "./globals.css";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Toaster } from "react-hot-toast";
+import Providers from "./Providers";
 
 export default function RootLayout({
   children,
@@ -10,12 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <GoogleOAuthProvider
-          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
-        >
-          {children}
-        </GoogleOAuthProvider>
-        <Toaster />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

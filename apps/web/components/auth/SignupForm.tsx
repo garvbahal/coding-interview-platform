@@ -5,6 +5,8 @@ import { signupUser } from "../../services/auth.service";
 import toast from "react-hot-toast";
 
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { ErrorResponse } from "../../types/auth.types";
 
 export const SignupForm = () => {
   const router = useRouter();
@@ -18,10 +20,14 @@ export const SignupForm = () => {
     try {
       setisLoading(true);
       const response = await signupUser({ email, password, name: fullName });
-      toast.success(response);
+      toast.success(response.message);
       router.replace("/auth/login");
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError<ErrorResponse>(error)) {
+        toast.error(error.response?.data?.message ?? "Something went wrong");
+      } else {
+        toast.error("Unexpected error");
+      }
     } finally {
       setisLoading(false);
     }
@@ -89,9 +95,9 @@ export const SignupForm = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className={`mt-2 flex w-full justify-center rounded-md  px-4 py-2 text-sm cursor-pointer font-medium text-white shadow-sm  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-colors ${isLoading ? ` bg-gray-500 cursor-not-allowed` : `bg-black hover:bg-gray-800`}`}
+          className={`mt-2 flex w-full justify-center rounded-md  px-4 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-colors ${isLoading ? ` bg-gray-500 cursor-not-allowed` : `bg-black cursor-pointer  hover:bg-gray-800`}`}
         >
-          {isLoading ? "Loading..." : "SignUp"}
+          {isLoading ? "Loading..." : "Sign up"}
         </button>
       </form>
     </div>

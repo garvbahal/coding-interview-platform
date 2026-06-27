@@ -1,4 +1,3 @@
-import { GoogleLogin } from "@react-oauth/google";
 import { LeftPanel } from "../../../components/auth/LeftPanel";
 import { RightPanel } from "../../../components/auth/RightPanel";
 

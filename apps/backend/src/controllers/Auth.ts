@@ -59,10 +59,10 @@ export const signup = async (req: Request, res: Response) => {
         id: newUser.id,
         name: newUser.name,
         email: newUser.email,
+        role: newUser.role,
       },
     });
   } catch (error) {
-    console.log("SignupError: ", error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong while signing up with credentials",
@@ -243,4 +243,17 @@ export const getAuthDetails = async (req: Request, res: Response) => {
       message: "Something went wrong while fetching user details",
     });
   }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("auth-cookie", {
+    httpOnly: true,
+    // secure: true,
+    sameSite: "lax",
+  });
+
+  return res.status(201).json({
+    success: true,
+    message: "Logged Out Successfully",
+  });
 };

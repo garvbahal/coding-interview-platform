@@ -1,7 +1,16 @@
 import axios from "axios";
-import { LoginData, SignupData } from "../types/auth.types";
+import {
+  AuthCookieResponse,
+  LoginData,
+  LoginResponse,
+  LogoutResponse,
+  SignupData,
+  SignupResponse,
+} from "../types/auth.types";
 
-export const loginFunction = async (data: LoginData) => {
+export const loginFunction = async (
+  data: LoginData,
+): Promise<LoginResponse> => {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URL!}/auth/login`,
     data,
@@ -13,7 +22,7 @@ export const loginFunction = async (data: LoginData) => {
   return response.data;
 };
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (): Promise<AuthCookieResponse> => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/me`,
     {
@@ -24,7 +33,7 @@ export const getCurrentUser = async () => {
   return response.data;
 };
 
-export const signupUser = async (data: SignupData) => {
+export const signupUser = async (data: SignupData): Promise<SignupResponse> => {
   console.log(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`);
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`,
@@ -34,5 +43,14 @@ export const signupUser = async (data: SignupData) => {
     },
   );
 
+  return response.data;
+};
+
+export const logoutUser = async (): Promise<LogoutResponse> => {
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/logout`,
+    {},
+    { withCredentials: true },
+  );
   return response.data;
 };

@@ -15,3 +15,31 @@ export type SignupData = {
   email: string;
   password: string;
 };
+
+export type SignupResponse = {
+  success: boolean;
+  message: string;
+  user: AuthUser;
+};
+
+export type AuthCookieResponse = {
+  success: boolean;
+  message: string;
+  user: AuthUser;
+};
+
+export type LoginResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type ErrorResponse = {
+  success: false;
+  message: string;
+  error?: object;
+};
+
+export type LogoutResponse = {
+  success: string;
+  message: string;
+};

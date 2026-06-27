@@ -1,14 +1,10 @@
 "use client";
-import { GoogleLogin } from "@react-oauth/google";
+import { LogoutButton } from "../components/auth/LogoutButton";
 
 export default function Home() {
   return (
     <div className="">
-      <GoogleLogin
-        onSuccess={(credentialResponse) => {
-          console.log(credentialResponse);
-        }}
-      />
+      <LogoutButton />
     </div>
   );
 }

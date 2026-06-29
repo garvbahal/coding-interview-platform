@@ -69,7 +69,8 @@ model TestCase {
 model Room {
   id              String    @id   @default(uuid())
   problemId       String
-  status          RoomStatus
+  roomCode        String    @unique
+  status          RoomStatus @default(ACTIVE)
   createdBy       String
   createdAt       DateTime  @default(now())
 
@@ -86,7 +87,6 @@ model RoomParticipant {
   id              String    @id   @default(uuid())
   roomId          String
   userId          String
-  role            UserRole
   joinedAt        DateTime  @default(now())  
 
   room            Room      @relation(fields: [roomId], references: [id])

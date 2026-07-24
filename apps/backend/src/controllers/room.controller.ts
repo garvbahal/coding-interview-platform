@@ -277,3 +277,97 @@ export const getRoomDetails = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getMyRooms = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+
+    const [activeRooms, endedRooms] = await Promise.all([
+      prisma.room.findMany({
+        where: {
+          createdBy: userId!,
+          status: "ACTIVE",
+        },
+        include: {
+          problem: {
+            select: {
+              title: true,
+              difficulty: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+
+      prisma.room.findMany({
+        where: {
+          createdBy: userId!,
+          status: "ENDED",
+        },
+        include: {
+          problem: {
+            select: {
+              title: true,
+              difficulty: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      message: "Interviewer Rooms fetched successfully",
+      activeRooms,
+      endedRooms,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch rooms",
+    });
+  }
+};
+
+export const getJoinedRooms = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+
+    const rooms = await prisma.room.findMany({
+      where: {
+        participants: {
+          some: {
+            userId: userId!,
+          },
+        },
+      },
+      include: {
+        problem: {
+          select: {
+            title: true,
+            difficulty: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Joined Room fetched successfully",
+      rooms,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching joined rooms",
+    });
+  }
+};

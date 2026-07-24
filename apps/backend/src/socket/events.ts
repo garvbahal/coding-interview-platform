@@ -4,4 +4,10 @@ export const SOCKET_EVENTS = {
   USER_LEFT: "user-left",
   ERROR: "error",
   ROOM_STATE: "room-state",
+  PRESENCE_UPDATED: "presence-updated",
+  CODE_CHANGED: "code-changed",
+  LANGUAGE_CHANGED: "language-changed",
+  SAVE_CODE: "save-code",
+
+  SAVE_LANGUAGE: "save-language",
 } as const;

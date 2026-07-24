@@ -1,6 +1,7 @@
 import { Socket } from "socket.io";
 import { SOCKET_EVENTS } from "../events.js";
 import { prisma } from "@repo/db";
+import { presenceService } from "../services/presence.service.js";
 
 export const registerRoomHandlers = (socket: Socket) => {
   socket.on(SOCKET_EVENTS.JOIN_ROOM, async (roomCode: string) => {
@@ -48,6 +49,12 @@ export const registerRoomHandlers = (socket: Socket) => {
       }
 
       socket.join(room.roomCode);
+      socket.data.roomCode = room.roomCode;
+      socket.data.roomId = room.id;
+
+      presenceService.addUser(room.roomCode, socket.id, socket.user);
+
+      const users = presenceService.getUsers(room.roomCode);
 
       const roomState = await prisma.roomState.findUnique({
         where: {
@@ -65,10 +72,11 @@ export const registerRoomHandlers = (socket: Socket) => {
       socket.emit(SOCKET_EVENTS.ROOM_STATE, {
         language: roomState.language,
         code: roomState.code,
+        participants: users,
       });
 
       socket.to(room.roomCode).emit(SOCKET_EVENTS.USER_JOINED, {
-        user,
+        users,
       });
 
       return;

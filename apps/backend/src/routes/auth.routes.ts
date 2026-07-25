@@ -9,10 +9,10 @@ import {
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
-router.post("/auth/signup", signup);
-router.post("/auth/login", login);
-router.get("/auth/me", authMiddleware, getAuthDetails);
-router.post("/auth/google", googleAuth);
-router.post("/auth/logout", authMiddleware, logout);
+router.post("/signup", signup);
+router.post("/login", login);
+router.get("/me", authMiddleware, getAuthDetails);
+router.post("/google", googleAuth);
+router.post("/logout", authMiddleware, logout);
 
 export const authRouter = router;

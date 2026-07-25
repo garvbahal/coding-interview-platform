@@ -295,6 +295,16 @@ export const getMyRooms = async (req: Request, res: Response) => {
               difficulty: true,
             },
           },
+          participants: {
+            select: {
+              id: true,
+            },
+          },
+          state: {
+            select: {
+              language: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",

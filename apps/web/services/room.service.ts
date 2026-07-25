@@ -1,5 +1,10 @@
 import axios from "axios";
-import { joinedRoomsResponse, myRoomsResponse } from "../types/room.types";
+import {
+  createRoomDataRequired,
+  createRoomResponse,
+  joinedRoomsResponse,
+  myRoomsResponse,
+} from "../types/room.types";
 
 export const getMyRooms = async (): Promise<myRoomsResponse> => {
   const { data } = await axios.get(
@@ -20,5 +25,26 @@ export const getJoinedRooms = async (): Promise<joinedRoomsResponse> => {
     },
   );
 
+  return data;
+};
+
+export const postCreateRoom = async ({
+  title,
+  description,
+  testCases,
+  difficulty,
+}: createRoomDataRequired): Promise<createRoomResponse> => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/rooms}`,
+    {
+      title,
+      description,
+      testCases,
+      difficulty,
+    },
+    {
+      withCredentials: true,
+    },
+  );
   return data;
 };

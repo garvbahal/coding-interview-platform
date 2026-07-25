@@ -34,3 +34,25 @@ export type joinedRoomsResponse = {
   message: string;
   rooms: endedRoomType[];
 };
+
+export type TestCase = {
+  input: string;
+  expectedOutput: string;
+  isHidden: boolean;
+};
+
+export type createRoomDataRequired = {
+  title: string;
+  description: string;
+  difficulty: string;
+  testCases: TestCase[];
+};
+
+export type createRoomResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    roomId: string;
+    roomCode: string;
+  };
+};

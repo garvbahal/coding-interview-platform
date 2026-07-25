@@ -36,7 +36,6 @@ export const getCurrentUser = async (): Promise<AuthCookieResponse> => {
 };
 
 export const signupUser = async (data: SignupData): Promise<SignupResponse> => {
-  console.log(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`);
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`,
     data,

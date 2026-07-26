@@ -8,6 +8,7 @@ import {
   createRoom,
   getJoinedRooms,
   getMyRooms,
+  getRoomDetails,
   joinRoom,
 } from "../controllers/room.controller.js";
 
@@ -15,6 +16,7 @@ const router = Router();
 
 router.post("/", authMiddleware, isInterviewer, createRoom);
 router.post("/join", authMiddleware, joinRoom);
+router.get("/getRoomDetails/:roomCode", authMiddleware, getRoomDetails);
 
 router.get("/my", authMiddleware, isInterviewer, getMyRooms);
 

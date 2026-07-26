@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   createRoomDataRequired,
   createRoomResponse,
+  getRoomDetailsResponse,
   joinedRoomsResponse,
   myRoomsResponse,
 } from "../types/room.types";
@@ -48,3 +49,14 @@ export const postCreateRoom = async ({
   );
   return data;
 };
+
+export const getRoomDetails = async (
+  roomCode: string,
+): Promise<getRoomDetailsResponse> => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/rooms/getRoomDetails/${roomCode}`,
+    { withCredentials: true },
+  );
+  return data;
+};
+

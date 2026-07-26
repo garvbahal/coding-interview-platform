@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getJoinedRooms,
   getMyRooms,
+  getRoomDetails,
   postCreateRoom,
 } from "../services/room.service";
 
@@ -31,5 +32,13 @@ export const useCreateRoom = () => {
         queryKey: ["myRooms"],
       });
     },
+  });
+};
+
+export const useGetRoomDetails = (roomCode: string) => {
+  return useQuery({
+    queryKey: ["getRoomDetails", roomCode],
+    queryFn: () => getRoomDetails(roomCode),
+    enabled: !!roomCode,
   });
 };

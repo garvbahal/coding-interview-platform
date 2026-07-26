@@ -56,3 +56,22 @@ export type createRoomResponse = {
     roomCode: string;
   };
 };
+
+export type getRoomDetailsResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    roomId: string;
+    roomCode: string;
+    status: string;
+    problem: {
+      title: string;
+      difficulty: string;
+      description: string;
+    };
+    roomState: {
+      language: string;
+      code: string;
+    };
+  };
+};

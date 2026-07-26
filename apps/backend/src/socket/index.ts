@@ -1,6 +1,7 @@
 import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 import { AuthenticateSocket } from "./middleware.js";
+import { handleConnection } from "./handlers/connection.handler.js";
 
 let io: Server;
 
@@ -12,10 +13,9 @@ export const initializeSocket = (httpServer: HttpServer) => {
     },
   });
   io.use(AuthenticateSocket);
+  io.on("connection", handleConnection);
   return io;
 };
-
-
 
 export const getIO = () => {
   if (!io) {

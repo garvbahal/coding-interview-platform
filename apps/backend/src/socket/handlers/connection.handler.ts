@@ -6,7 +6,6 @@ import { SOCKET_EVENTS } from "../events.js";
 import { registerCodeHandlers } from "./code.handler.js";
 import { registerSaveHandlers } from "./save.handler.js";
 import { registerLanguageHandlers } from "./language.handler.js";
-import { registerSaveLanguageHandlers } from "./saveLanguage.handler.js";
 
 export const handleConnection = (socket: Socket) => {
   console.log(`${socket.user.name} connected`);
@@ -15,7 +14,6 @@ export const handleConnection = (socket: Socket) => {
   registerCodeHandlers(socket);
   registerSaveHandlers(socket);
   registerLanguageHandlers(socket);
-  registerSaveLanguageHandlers(socket);
 
   socket.on("disconnect", () => {
     const roomCode = socket.data.roomCode;
@@ -23,6 +21,12 @@ export const handleConnection = (socket: Socket) => {
     if (!roomCode) return;
 
     presenceService.removeUser(roomCode, socket.user.id);
+
+    getIO().to(roomCode).emit(SOCKET_EVENTS.USER_LEFT, {
+      userId: socket.user.id,
+      name: socket.user.name,
+      role: socket.user.role,
+    });
 
     const users = presenceService.getUsers(roomCode);
 

@@ -3,6 +3,7 @@ import Editor from "@monaco-editor/react";
 import { DEFAULT_CODE, Language, LANGUAGES } from "./constant";
 import { socket } from "../../services/socket.service";
 import { SOCKET_EVENTS } from "../../hooks/useRoomSocket";
+import { BottomPanel } from "./BottomPanel";
 
 type RightPanelProps = {
   language: Language;
@@ -10,6 +11,7 @@ type RightPanelProps = {
   setCode: (value: string) => void;
   setLanguage: (value: Language) => void;
   onReset: () => void;
+  roomCode: string;
 };
 
 export const RightPanel = ({
@@ -18,9 +20,10 @@ export const RightPanel = ({
   setCode,
   setLanguage,
   onReset,
+  roomCode,
 }: RightPanelProps) => {
   return (
-    <div className="flex-1 h-full">
+    <div className="flex flex-1 flex-col h-full">
       <div className="h-12 border-b border-gray-800 flex items-center justify-between px-4 bg-[#252526]">
         <select
           value={language}
@@ -48,27 +51,32 @@ export const RightPanel = ({
           ↺
         </button>
       </div>
-      <Editor
-        height="100%"
-        language={language}
-        value={code}
-        onChange={(value) => {
-          const newCode = value ?? "";
-          setCode(newCode);
-          socket.emit(SOCKET_EVENTS.CODE_CHANGED, {
-            code: newCode,
-          });
-        }}
-        theme="vs-dark"
-        options={{
-          minimap: {
-            enabled: false,
-          },
-          automaticLayout: true,
-          fontSize: 15,
-          scrollBeyondLastLine: false,
-        }}
-      />
+      <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex-1 min-h-0">
+          <Editor
+            height="100%"
+            language={language}
+            value={code}
+            onChange={(value) => {
+              const newCode = value ?? "";
+              setCode(newCode);
+              socket.emit(SOCKET_EVENTS.CODE_CHANGED, {
+                code: newCode,
+              });
+            }}
+            theme="vs-dark"
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              automaticLayout: true,
+              fontSize: 15,
+              scrollBeyondLastLine: false,
+            }}
+          />
+        </div>
+        <BottomPanel roomCode={roomCode} language={language} code={code} />
+      </div>
     </div>
   );
 };

@@ -1,10 +1,4 @@
-export const LANGUAGES = [
-  "cpp",
-  "java",
-  "python",
-  "javascript",
-  "typescript",
-] as const;
+export const LANGUAGES = ["cpp", "java", "python", "typescript"] as const;
 
 export type Language = (typeof LANGUAGES)[number];
 
@@ -25,11 +19,6 @@ int main() {
 
   python: `class Solution:
     pass
-`,
-
-  javascript: `function solve() {
-
-}
 `,
 
   typescript: `function solve(): void {

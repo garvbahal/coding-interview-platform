@@ -46,6 +46,7 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
         />
         <RightPanel
           language={language}
+          roomCode={roomCode}
           code={code}
           setCode={setCode}
           setLanguage={setLanguage}

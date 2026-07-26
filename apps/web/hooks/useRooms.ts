@@ -4,7 +4,9 @@ import {
   getMyRooms,
   getRoomDetails,
   postCreateRoom,
+  postJoinRoom,
 } from "../services/room.service";
+import toast from "react-hot-toast";
 
 export const useMyRooms = (enabled: boolean) => {
   return useQuery({
@@ -40,5 +42,17 @@ export const useGetRoomDetails = (roomCode: string) => {
     queryKey: ["getRoomDetails", roomCode],
     queryFn: () => getRoomDetails(roomCode),
     enabled: !!roomCode,
+  });
+};
+
+export const usePostJoinRoom = () => {
+  return useMutation({
+    mutationFn: postJoinRoom,
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message ?? "Something went wrong");
+    },
   });
 };

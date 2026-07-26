@@ -75,3 +75,8 @@ export type getRoomDetailsResponse = {
     };
   };
 };
+
+export type postJoinRoomResponse = {
+  success: boolean;
+  message: string;
+};

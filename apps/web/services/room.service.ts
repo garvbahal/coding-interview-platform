@@ -5,6 +5,7 @@ import {
   getRoomDetailsResponse,
   joinedRoomsResponse,
   myRoomsResponse,
+  postJoinRoomResponse,
 } from "../types/room.types";
 
 export const getMyRooms = async (): Promise<myRoomsResponse> => {
@@ -36,7 +37,7 @@ export const postCreateRoom = async ({
   difficulty,
 }: createRoomDataRequired): Promise<createRoomResponse> => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/rooms}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/rooms`,
     {
       title,
       description,
@@ -60,3 +61,17 @@ export const getRoomDetails = async (
   return data;
 };
 
+export const postJoinRoom = async (
+  roomCode: string,
+): Promise<postJoinRoomResponse> => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/rooms/join`,
+    {
+      roomCode,
+    },
+    {
+      withCredentials: true,
+    },
+  );
+  return data;
+};

@@ -28,7 +28,7 @@ export default function interviewerDashboard() {
       <div className="flex min-h-screen">
         <div className="flex-1 flex flex-col">
           {/* Navbar */}
-          <DashboardNavbar name={userDetails?.name!} role="CANDIDATE" />
+          <DashboardNavbar name={userDetails?.name!} role="INTERVIEWER" />
 
           <main className="flex-1 p-8 bg-gray-50">
             {/* Create Interview Section */}

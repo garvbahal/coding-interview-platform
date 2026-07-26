@@ -80,6 +80,13 @@ export const createRoom = async (req: Request, res: Response) => {
         },
       });
 
+      await tx.roomParticipant.create({
+        data: {
+          roomId: room.id,
+          userId: interviewerId!,
+        },
+      });
+
       return room;
     });
 

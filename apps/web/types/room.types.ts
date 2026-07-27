@@ -80,3 +80,8 @@ export type postJoinRoomResponse = {
   success: boolean;
   message: string;
 };
+
+export type postEndInterviewResponse = {
+  success: boolean;
+  message: string;
+};

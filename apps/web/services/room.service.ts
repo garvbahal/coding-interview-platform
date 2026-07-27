@@ -5,6 +5,7 @@ import {
   getRoomDetailsResponse,
   joinedRoomsResponse,
   myRoomsResponse,
+  postEndInterviewResponse,
   postJoinRoomResponse,
 } from "../types/room.types";
 
@@ -73,5 +74,19 @@ export const postJoinRoom = async (
       withCredentials: true,
     },
   );
+  return data;
+};
+
+export const postEndInterview = async ({
+  roomCode,
+}: {
+  roomCode: string;
+}): Promise<postEndInterviewResponse> => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/rooms/${roomCode}/end`,
+    {},
+    { withCredentials: true },
+  );
+
   return data;
 };

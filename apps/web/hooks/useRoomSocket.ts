@@ -7,6 +7,8 @@ import {
   UserLeftType,
 } from "../types/socket.types";
 import { Language } from "../components/interviewRoom/constant";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export const SOCKET_EVENTS = {
   JOIN_ROOM: "join-room",
@@ -18,6 +20,8 @@ export const SOCKET_EVENTS = {
   CODE_CHANGED: "code-changed",
   LANGUAGE_CHANGED: "language-changed",
   SAVE_CODE: "save-code",
+  END_INTERVIEW: "end-interview",
+  ROOM_ENDED: "room-ended",
 
   SAVE_LANGUAGE: "save-language",
 } as const;
@@ -35,6 +39,8 @@ export const useRoomSocket = ({
   setLanguage,
   code,
 }: useRoomSocketProps) => {
+  const router = useRouter();
+
   //Connection
   useEffect(() => {
     socket.connect();
@@ -130,4 +136,19 @@ export const useRoomSocket = ({
       clearTimeout(timeout);
     };
   }, [code]);
+
+  //room-ended
+  useEffect(() => {
+    const handleRoomEnded = () => {
+      toast.success("Interview has ended");
+      router.replace("/");
+      return;
+    };
+
+    socket.on(SOCKET_EVENTS.ROOM_ENDED, handleRoomEnded);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.ROOM_ENDED, handleRoomEnded);
+    };
+  }, []);
 };

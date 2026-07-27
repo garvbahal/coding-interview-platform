@@ -2,6 +2,8 @@
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { useEndInterview } from "../../hooks/useRooms";
+import { useRouter } from "next/navigation";
 
 type RoomNavbarProps = {
   roomCode: string;
@@ -9,6 +11,29 @@ type RoomNavbarProps = {
 
 export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
   const userDetails = useSelector((state: RootState) => state.auth.user);
+  const router = useRouter();
+
+  const { mutate, isPending } = useEndInterview();
+
+  const handleEndInterview = () => {
+    mutate(
+      { roomCode },
+      {
+        onSuccess: (data) => {
+          router.replace(`${userDetails?.role}/dashboard`);
+        },
+      },
+    );
+  };
+
+  const handleLeaveRoom = () => {
+    const role = userDetails?.role;
+    if (!role) {
+      return;
+    }
+
+    router.replace(`/${role.toLowerCase()}/dashboard`);
+  };
 
   return (
     <header className="h-14 border-b border-gray-200 flex items-center justify-between px-4 shrink-0 bg-white">
@@ -37,12 +62,18 @@ export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <button className="text-sm font-medium text-gray-600 border border-gray-300 px-4 py-1.5 rounded hover:bg-gray-50 cursor-pointer">
+        <button
+          className="text-sm font-medium text-gray-600 border border-gray-300 px-4 py-1.5 rounded hover:bg-gray-50 cursor-pointer"
+          onClick={handleLeaveRoom}
+        >
           Leave
         </button>
         {userDetails?.role === "INTERVIEWER" ? (
-          <button className="text-sm font-medium text-white bg-black px-4 py-1.5 rounded hover:bg-gray-800 cursor-pointer">
-            End Interview
+          <button
+            className="text-sm font-medium text-white bg-black px-4 py-1.5 rounded hover:bg-gray-800 cursor-pointer"
+            onClick={handleEndInterview}
+          >
+            {isPending ? "Ending..." : "End Interview"}
           </button>
         ) : (
           <div></div>

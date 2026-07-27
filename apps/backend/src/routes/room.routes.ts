@@ -6,6 +6,7 @@ import {
 } from "../middlewares/auth.middleware.js";
 import {
   createRoom,
+  endInterview,
   getJoinedRooms,
   getMyRooms,
   getRoomDetails,
@@ -21,5 +22,7 @@ router.get("/getRoomDetails/:roomCode", authMiddleware, getRoomDetails);
 router.get("/my", authMiddleware, isInterviewer, getMyRooms);
 
 router.get("/joined", authMiddleware, isCandidate, getJoinedRooms);
+
+router.post("/:roomCode/end", authMiddleware, isInterviewer, endInterview);
 
 export const roomRouter = router;

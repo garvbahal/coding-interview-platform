@@ -7,9 +7,12 @@ import { RoomNavbar } from "./Navbar";
 import { RightPanel } from "./RightPanel";
 import { DEFAULT_CODE, Language } from "./constant";
 import { useRoomSocket } from "../../hooks/useRoomSocket";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export const RoomClient = ({ roomCode }: { roomCode: string }) => {
-  const { data, isError, isPending } = useGetRoomDetails(roomCode);
+  const { data, isError, isPending, error } = useGetRoomDetails(roomCode);
+  const router = useRouter();
 
   const [language, setLanguage] = useState<Language>("cpp");
 
@@ -25,6 +28,15 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
     setCode(DEFAULT_CODE[language]);
   };
 
+  useEffect(() => {
+    if (!isError) {
+      return;
+    }
+
+    toast.error(error.response?.data?.message ?? "Something went wrong");
+    router.replace("/");
+  }, [isError, error, router]);
+
   useRoomSocket({ roomCode, setCode, setLanguage, code });
 
   if (isPending) {
@@ -32,7 +44,7 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
   }
 
   if (isError) {
-    return <div>Something went wrong</div>;
+    return null;
   }
 
   return (

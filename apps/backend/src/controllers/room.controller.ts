@@ -388,3 +388,64 @@ export const getJoinedRooms = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const endInterview = async (req: Request, res: Response) => {
+  try {
+    const { roomCode } = req.params;
+
+    if (!roomCode) {
+      return res.status(404).json({
+        success: false,
+        message: "Room code missing",
+      });
+    }
+
+    const room = await prisma.room.findUnique({
+      where: {
+        roomCode: roomCode as string,
+      },
+    });
+
+    if (!room) {
+      return res.status(404).json({
+        success: false,
+        message: "Room not found",
+      });
+    }
+
+    const user = req.user;
+
+    if (room.createdBy !== user?.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You don't have permission to end this interview",
+      });
+    }
+
+    if (room.status === "ENDED") {
+      return res.status(400).json({
+        success: false,
+        message: "Interview has already ended",
+      });
+    }
+
+    await prisma.room.update({
+      where: {
+        roomCode: roomCode as string,
+      },
+      data: {
+        status: "ENDED",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Interview has Ended",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while ending the interview",
+    });
+  }
+};

@@ -4,9 +4,15 @@ import {
   getMyRooms,
   getRoomDetails,
   postCreateRoom,
+  postEndInterview,
   postJoinRoom,
 } from "../services/room.service";
 import toast from "react-hot-toast";
+import { socket } from "../services/socket.service";
+import { SOCKET_EVENTS } from "./useRoomSocket";
+import { getRoomDetailsResponse } from "../types/room.types";
+import { AxiosError } from "axios";
+import { ApiError } from "next/dist/server/api-utils";
 
 export const useMyRooms = (enabled: boolean) => {
   return useQuery({
@@ -38,10 +44,11 @@ export const useCreateRoom = () => {
 };
 
 export const useGetRoomDetails = (roomCode: string) => {
-  return useQuery({
+  return useQuery<getRoomDetailsResponse, AxiosError<ApiError>>({
     queryKey: ["getRoomDetails", roomCode],
     queryFn: () => getRoomDetails(roomCode),
     enabled: !!roomCode,
+    retry: false,
   });
 };
 
@@ -49,6 +56,19 @@ export const usePostJoinRoom = () => {
   return useMutation({
     mutationFn: postJoinRoom,
     onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message ?? "Something went wrong");
+    },
+  });
+};
+
+export const useEndInterview = () => {
+  return useMutation({
+    mutationFn: postEndInterview,
+    onSuccess: (data) => {
+      socket.emit(SOCKET_EVENTS.END_INTERVIEW);
       toast.success(data.message);
     },
     onError: (error: any) => {

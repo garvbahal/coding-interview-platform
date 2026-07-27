@@ -12,6 +12,7 @@ export const PreviousInterviewTableRow = ({
   roomCode,
   status,
 }: previousInterviewRowProps) => {
+  const date = new Date(createdAt);
   return (
     <tr className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
       <td className="px-6 py-4 text-sm text-gray-900 font-medium">{title}</td>
@@ -28,7 +29,12 @@ export const PreviousInterviewTableRow = ({
           {status}
         </span>
       </td>
-      <td className="px-6 py-4 text-sm text-gray-600">{createdAt}</td>
+      <td className="px-6 py-4 text-sm text-gray-600">
+        {date.toLocaleString("en-In", {
+          dateStyle: "long",
+          timeStyle: "short",
+        })}
+      </td>
       <td className="px-6 py-4 text-right"> {roomCode}</td>
     </tr>
   );

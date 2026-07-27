@@ -15,7 +15,7 @@ export const CreateInterviewSection = () => {
         <p className="text-gray-500 mt-1">Manage your coding interviews</p>
       </div>
       <button
-        className="bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors flex items-center gap-2"
+        className="bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors flex items-center gap-2 cursor-pointer"
         onClick={handleClick}
       >
         <svg

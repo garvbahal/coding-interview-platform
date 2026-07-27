@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useEndInterview } from "../../hooks/useRooms";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type RoomNavbarProps = {
   roomCode: string;
@@ -38,7 +39,10 @@ export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
   return (
     <header className="h-14 border-b border-gray-200 flex items-center justify-between px-4 shrink-0 bg-white">
       <div className="flex items-center gap-4">
-        <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+        <Link
+          href={"/"}
+          className="w-8 h-8 bg-black rounded-lg flex items-center justify-center"
+        >
           <svg
             className="w-5 h-5 text-white"
             fill="none"
@@ -52,7 +56,7 @@ export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
               d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
             ></path>
           </svg>
-        </div>
+        </Link>
         <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded border border-gray-200">
           Room: {roomCode}
         </span>

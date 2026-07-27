@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type DashboardNavbarPayload = {
   role: "CANDIDATE" | "INTERVIEWER";
   name: string;
@@ -12,7 +14,7 @@ export const DashboardNavbar = ({ role, name }: DashboardNavbarPayload) => {
 
   return (
     <nav className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-8">
-      <div className="flex items-center gap-3">
+      <Link href={"/"} className="flex items-center gap-3">
         <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
           <svg
             className="w-5 h-5 text-white"
@@ -29,7 +31,7 @@ export const DashboardNavbar = ({ role, name }: DashboardNavbarPayload) => {
           </svg>
         </div>
         <span className="font-semibold text-lg">CodeInterview</span>
-      </div>
+      </Link>
       <div className="flex items-center gap-4">
         <div className="text-right">
           <p className="text-sm font-medium text-gray-900">{name}</p>

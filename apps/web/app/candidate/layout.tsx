@@ -1,15 +1,15 @@
 "use client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function InterviewerLayout({
+export default function CandiateLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated, isLoading, user } = useSelector(
+  const { isLoading, isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth,
   );
   const router = useRouter();
@@ -18,15 +18,15 @@ export default function InterviewerLayout({
     if (isLoading) {
       return;
     }
+
     if (!isAuthenticated) {
       router.replace("/auth/login");
-      return;
     }
 
-    if (user?.role === "CANDIDATE") {
-      router.replace("/candidate/dashboard");
+    if (isAuthenticated && user!.role !== "CANDIDATE") {
+      router.replace("/interviewer/dashboard");
     }
-  }, [user, isLoading, isAuthenticated, router]);
+  }, [isLoading, router, isAuthenticated, user]);
 
   if (isLoading) {
     return (

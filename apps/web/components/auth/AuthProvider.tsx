@@ -24,13 +24,13 @@ export default function AuthProvider({
     checkAuth();
   }, [dispatch]);
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex h-screen items-center justify-center">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
 
   return <>{children}</>;
 }

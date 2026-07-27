@@ -9,6 +9,7 @@ import { DEFAULT_CODE, Language } from "./constant";
 import { useRoomSocket } from "../../hooks/useRoomSocket";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { CodeSpinner } from "../spinners/CodeSpinner";
 
 export const RoomClient = ({ roomCode }: { roomCode: string }) => {
   const { data, isError, isPending, error } = useGetRoomDetails(roomCode);
@@ -18,10 +19,13 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
 
   const [code, setCode] = useState("");
 
+  const [customInput, setCustomInput] = useState("");
+
   useEffect(() => {
     if (!data) return;
     setLanguage(data.data.roomState.language as Language);
     setCode(data.data.roomState.code);
+    setCustomInput(data.data.roomState.customInput);
   }, [data]);
 
   const onReset = () => {
@@ -37,10 +41,21 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
     router.replace("/");
   }, [isError, error, router]);
 
-  useRoomSocket({ roomCode, setCode, setLanguage, code });
+  useRoomSocket({
+    roomCode,
+    setCode,
+    setLanguage,
+    code,
+    customInput,
+    setCustomInput,
+  });
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <CodeSpinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -57,6 +72,8 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
           difficulty={data.data.problem.difficulty}
         />
         <RightPanel
+          customInput={customInput}
+          setCustomInput={setCustomInput}
           language={language}
           roomCode={roomCode}
           code={code}

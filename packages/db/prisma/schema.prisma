@@ -99,6 +99,7 @@ model RoomState {
   roomId          String    @id
   code            String
   language        String
+  customInput      String
   updatedAt       DateTime  @updatedAt
 
   room            Room      @relation(fields: [roomId], references: [id])

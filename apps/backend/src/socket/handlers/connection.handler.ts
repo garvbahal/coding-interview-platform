@@ -7,15 +7,17 @@ import { registerCodeHandlers } from "./code.handler.js";
 import { registerSaveHandlers } from "./save.handler.js";
 import { registerLanguageHandlers } from "./language.handler.js";
 import { endInterviewHandler } from "./endInterview.handler.js";
+import { customInputHandler } from "./customInput.handler.js";
+import { SaveCustomInputHandler } from "./saveCustomInput.handler.js";
 
 export const handleConnection = (socket: Socket) => {
-  console.log(`${socket.user.name} connected`);
-
   registerRoomHandlers(socket);
   registerCodeHandlers(socket);
   registerSaveHandlers(socket);
   registerLanguageHandlers(socket);
   endInterviewHandler(socket);
+  customInputHandler(socket);
+  SaveCustomInputHandler(socket);
 
   socket.on("disconnect", () => {
     const roomCode = socket.data.roomCode;

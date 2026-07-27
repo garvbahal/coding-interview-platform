@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProfileDropdown } from "./ProfileDropDown";
 
 type DashboardNavbarPayload = {
   role: "CANDIDATE" | "INTERVIEWER";
@@ -6,12 +7,7 @@ type DashboardNavbarPayload = {
 };
 
 export const DashboardNavbar = ({ role, name }: DashboardNavbarPayload) => {
-  const initials = name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-
+  
   return (
     <nav className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-8">
       <Link href={"/"} className="flex items-center gap-3">
@@ -32,19 +28,8 @@ export const DashboardNavbar = ({ role, name }: DashboardNavbarPayload) => {
         </div>
         <span className="font-semibold text-lg">CodeInterview</span>
       </Link>
-      <div className="flex items-center gap-4">
-        <div className="text-right">
-          <p className="text-sm font-medium text-gray-900">{name}</p>
-          <p className="text-xs text-gray-500">
-            {role === "CANDIDATE" ? "Candidate" : "Interviewer"}
-          </p>
-        </div>
-        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-          <span className="text-sm font-medium text-gray-600">
-            {initials || "CI"}
-          </span>
-        </div>
-      </div>
+
+      <ProfileDropdown name={name} role={role} />
     </nav>
   );
 };

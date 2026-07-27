@@ -7,6 +7,7 @@ import { useJoinedRooms } from "../../../hooks/useRooms";
 import { RootState } from "../../../store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { CodeSpinner } from "../../../components/spinners/CodeSpinner";
 
 export default function candidateDashboard() {
   const userDetails = useSelector((state: RootState) => state.auth.user);
@@ -27,11 +28,19 @@ export default function candidateDashboard() {
   const { data, isError, isPending } = useJoinedRooms(shouldFetch);
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <CodeSpinner />
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Something went wrong</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        Something went wrong
+      </div>
+    );
   }
 
   return (

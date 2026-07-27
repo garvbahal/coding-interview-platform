@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { CodeSpinner } from "../../components/spinners/CodeSpinner";
 
 export default function CandiateLayout({
   children,
@@ -31,9 +32,13 @@ export default function CandiateLayout({
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        Loading...
+        <CodeSpinner />
       </div>
     );
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   return <>{children}</>;

@@ -12,6 +12,8 @@ type RightPanelProps = {
   setLanguage: (value: Language) => void;
   onReset: () => void;
   roomCode: string;
+  customInput: string;
+  setCustomInput: (value: string) => void;
 };
 
 export const RightPanel = ({
@@ -21,6 +23,8 @@ export const RightPanel = ({
   setLanguage,
   onReset,
   roomCode,
+  customInput,
+  setCustomInput,
 }: RightPanelProps) => {
   return (
     <div className="flex flex-1 flex-col h-full">
@@ -75,7 +79,13 @@ export const RightPanel = ({
             }}
           />
         </div>
-        <BottomPanel roomCode={roomCode} language={language} code={code} />
+        <BottomPanel
+          customInput={customInput}
+          setCustomInput={setCustomInput}
+          roomCode={roomCode}
+          language={language}
+          code={code}
+        />
       </div>
     </div>
   );

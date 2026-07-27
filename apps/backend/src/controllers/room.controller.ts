@@ -75,8 +75,16 @@ export const createRoom = async (req: Request, res: Response) => {
       await tx.roomState.create({
         data: {
           roomId: room.id,
-          code: "",
+          code: `#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+
+    return 0;
+}
+`,
           language: "cpp",
+          customInput: "",
         },
       });
 
@@ -274,6 +282,7 @@ export const getRoomDetails = async (req: Request, res: Response) => {
         roomState: {
           language: room.state?.language,
           code: room.state?.code,
+          customInput: room.state?.customInput,
         },
       },
     });

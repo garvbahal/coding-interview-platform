@@ -5,15 +5,24 @@ import { useState } from "react";
 import { useRunCode, useSubmitCode } from "../../hooks/useExecuteCode";
 import type { Language } from "./constant";
 import toast from "react-hot-toast";
+import { socket } from "../../services/socket.service";
+import { SOCKET_EVENTS } from "../../hooks/useRoomSocket";
 
 interface BottomPanelProps {
   code: string;
   language: Language;
   roomCode: string;
+  customInput: string;
+  setCustomInput: (value: string) => void;
 }
 
-export const BottomPanel = ({ code, language, roomCode }: BottomPanelProps) => {
-  const [input, setInput] = useState("");
+export const BottomPanel = ({
+  customInput,
+  setCustomInput,
+  code,
+  language,
+  roomCode,
+}: BottomPanelProps) => {
   const [output, setOutput] = useState("");
 
   const { mutate, isPending } = useRunCode();
@@ -43,7 +52,7 @@ export const BottomPanel = ({ code, language, roomCode }: BottomPanelProps) => {
 
   const handleRunButton = () => {
     mutate(
-      { code, language, input },
+      { code, language, input: customInput },
       {
         onSuccess: (data) => {
           if (data.data.status === "error") {
@@ -70,7 +79,7 @@ export const BottomPanel = ({ code, language, roomCode }: BottomPanelProps) => {
 
         <div className="flex gap-2">
           <button
-            className="flex items-center gap-2 rounded-md bg-green-600 hover:bg-green-700 px-4 py-1.5 text-sm font-medium text-white transition"
+            className={`flex items-center gap-2 rounded-md ${isPending ? "bg-green-800 hover:bg-green-900 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 cursor-pointer"} px-4 py-1.5 text-sm font-medium text-white transition `}
             disabled={isPending || isPending2}
             onClick={handleRunButton}
           >
@@ -79,7 +88,7 @@ export const BottomPanel = ({ code, language, roomCode }: BottomPanelProps) => {
           </button>
 
           <button
-            className="flex items-center gap-2 rounded-md bg-blue-600 hover:bg-blue-700 px-4 py-1.5 text-sm font-medium text-white transition"
+            className={`flex items-center gap-2 rounded-md ${isPending2 ? "bg-blue-800 hover:bg-blue-900 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 cursor-pointer"} px-4 py-1.5 text-sm font-medium text-white transition `}
             onClick={handleSubmitButton}
             disabled={isPending || isPending2}
           >
@@ -98,8 +107,13 @@ export const BottomPanel = ({ code, language, roomCode }: BottomPanelProps) => {
           </div>
 
           <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={customInput}
+            onChange={(e) => {
+              setCustomInput(e.target.value);
+              socket.emit(SOCKET_EVENTS.CUSTOM_INPUT_CHANGED, {
+                customInput: e.target.value,
+              });
+            }}
             placeholder="Enter custom input..."
             className="
               flex-1

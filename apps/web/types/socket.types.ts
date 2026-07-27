@@ -20,3 +20,7 @@ export type LangaugeChangeType = {
   language: Language;
   starterCode: string;
 };
+
+export type CustomInputChangeType = {
+  customInput: string;
+};

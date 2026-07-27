@@ -10,6 +10,8 @@ export const SOCKET_EVENTS = {
   SAVE_CODE: "save-code",
   END_INTERVIEW: "end-interview",
   ROOM_ENDED: "room-ended",
+  CUSTOM_INPUT_CHANGED: "custom-intput-changed",
+  SAVE_CUSTOM_INPUT: "save-custom-input",
 
   SAVE_LANGUAGE: "save-language",
 } as const;

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { socket } from "../services/socket.service";
 import {
   CodeChangedType,
+  CustomInputChangeType,
   LangaugeChangeType,
   UserJoinedType,
   UserLeftType,
@@ -22,6 +23,8 @@ export const SOCKET_EVENTS = {
   SAVE_CODE: "save-code",
   END_INTERVIEW: "end-interview",
   ROOM_ENDED: "room-ended",
+  CUSTOM_INPUT_CHANGED: "custom-intput-changed",
+  SAVE_CUSTOM_INPUT: "save-custom-input",
 
   SAVE_LANGUAGE: "save-language",
 } as const;
@@ -31,6 +34,8 @@ interface useRoomSocketProps {
   setCode: (value: string) => void;
   setLanguage: (value: Language) => void;
   code: string;
+  customInput: string;
+  setCustomInput: (value: string) => void;
 }
 
 export const useRoomSocket = ({
@@ -38,6 +43,8 @@ export const useRoomSocket = ({
   setCode,
   setLanguage,
   code,
+  customInput,
+  setCustomInput,
 }: useRoomSocketProps) => {
   const router = useRouter();
 
@@ -151,4 +158,29 @@ export const useRoomSocket = ({
       socket.off(SOCKET_EVENTS.ROOM_ENDED, handleRoomEnded);
     };
   }, []);
+
+  //custom-input-change
+  useEffect(() => {
+    const handleCustomInputChanged = (data: CustomInputChangeType) => {
+      console.log("Received on client:", data);
+      setCustomInput(data.customInput);
+    };
+
+    socket.on(SOCKET_EVENTS.CUSTOM_INPUT_CHANGED, handleCustomInputChanged);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.CUSTOM_INPUT_CHANGED, handleCustomInputChanged);
+    };
+  }, []);
+
+  //save-custom-input-change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      socket.emit(SOCKET_EVENTS.SAVE_CUSTOM_INPUT, {
+        customInput,
+      });
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [customInput]);
 };

@@ -72,6 +72,7 @@ export type getRoomDetailsResponse = {
     roomState: {
       language: string;
       code: string;
+      customInput: string;
     };
   };
 };

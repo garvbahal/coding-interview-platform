@@ -30,11 +30,14 @@ export const HeroSection = () => {
         {/* Hero Text  */}
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8 w-full">
           <div className="mt-24 sm:mt-32 lg:mt-16">
-            <a href="#" className="inline-flex space-x-6">
+            <div className="inline-flex space-x-6">
               <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200 shadow-sm">
                 Platform
               </span>
-              <span className="inline-flex items-center space-x-2 text-sm font-medium text-gray-600">
+              <a
+                href="#feature-section"
+                className="inline-flex items-center space-x-2 text-sm font-medium text-gray-600"
+              >
                 <span>Next-Gen Virtual Rooms</span>
                 <svg
                   className="h-4 w-4 text-gray-400"
@@ -49,8 +52,8 @@ export const HeroSection = () => {
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
-              </span>
-            </a>
+              </a>
+            </div>
           </div>
           <h1 className="mt-10 text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl leading-tight">
             Conduct live coding interviews with precision.
@@ -69,7 +72,7 @@ export const HeroSection = () => {
               Start Interviewing
             </Link>
             <a
-              href="#features"
+              href="#feature-section"
               className="text-sm font-semibold leading-6 text-gray-900 group"
             >
               See how it works

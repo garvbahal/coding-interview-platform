@@ -42,7 +42,7 @@ export const JoinInterViewSection = () => {
             className="flex-1 px-5 py-4 border border-gray-300 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
           />
           <button
-            className={`bg-black text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800 transition-colors whitespace-nowrap `}
+            className={`bg-black text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800 transition-colors whitespace-nowrap cursor-pointer`}
             disabled={isPending}
             onClick={handleJoinRoom}
           >

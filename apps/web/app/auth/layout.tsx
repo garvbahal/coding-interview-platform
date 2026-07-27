@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { CodeSpinner } from "../../components/spinners/CodeSpinner";
 
 export default function authLayout({
   children,
@@ -25,7 +26,7 @@ export default function authLayout({
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        Loading...
+        <CodeSpinner />
       </div>
     );
   }

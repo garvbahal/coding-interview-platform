@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useEffect } from "react";
+import { CodeSpinner } from "../../../components/spinners/CodeSpinner";
 
 export default function roomLayout({
   children,
@@ -28,7 +29,7 @@ export default function roomLayout({
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        Loading...
+        <CodeSpinner />
       </div>
     );
   }

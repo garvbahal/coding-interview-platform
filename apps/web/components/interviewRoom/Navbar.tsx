@@ -21,7 +21,7 @@ export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
       { roomCode },
       {
         onSuccess: (data) => {
-          router.replace(`${userDetails?.role}/dashboard`);
+          router.replace(`/${userDetails!.role.toLowerCase()}/dashboard`);
         },
       },
     );
@@ -74,7 +74,7 @@ export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
         </button>
         {userDetails?.role === "INTERVIEWER" ? (
           <button
-            className="text-sm font-medium text-white bg-black px-4 py-1.5 rounded hover:bg-gray-800 cursor-pointer"
+            className={`text-sm font-medium text-white bg-black px-4 py-1.5 rounded hover:bg-gray-800 ${isPending ? "cursor-not-allowed" : "cursor-pointer"}`}
             onClick={handleEndInterview}
           >
             {isPending ? "Ending..." : "End Interview"}

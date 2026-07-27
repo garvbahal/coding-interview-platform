@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { CodeSpinner } from "../../../components/spinners/CodeSpinner";
 
 export default function interviewerDashboard() {
   const userDetails = useSelector((state: RootState) => state.auth.user);
@@ -16,11 +17,20 @@ export default function interviewerDashboard() {
   const { data, isPending, isError } = useMyRooms(shouldFetch);
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <CodeSpinner />
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Something went Wrong</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        {" "}
+        Something went Wrong
+      </div>
+    );
   }
 
   return (

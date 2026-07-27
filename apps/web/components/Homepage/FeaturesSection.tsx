@@ -91,7 +91,7 @@ const data = [
 export const FeaturesSection = () => {
   return (
     <section
-      id="features"
+      id="feature-section"
       className="py-24 sm:py-32 bg-gray-50 border-t border-gray-200"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

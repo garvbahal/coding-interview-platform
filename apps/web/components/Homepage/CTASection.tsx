@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export const CTASection = () => {
   return (
-    <section className="bg-black py-24 sm:py-32">
+    <section  className="bg-black py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center text-white">
         <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
           Ready to standardize your interviews?
@@ -10,12 +12,12 @@ export const CTASection = () => {
           invite candidates, and hire better.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <a
-            href="signup.html"
+          <Link
+            href="/auth/signup"
             className="rounded-full bg-white px-8 py-3.5 text-sm font-bold text-black hover:bg-gray-100 transition-colors shadow-xl hover:scale-105 transition-transform duration-200"
           >
             Create an account for free
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { CodeSpinner } from "../../components/spinners/CodeSpinner";
 
 export default function InterviewerLayout({
   children,
@@ -23,7 +24,7 @@ export default function InterviewerLayout({
       return;
     }
 
-    if (user?.role === "CANDIDATE") {
+    if (isAuthenticated && user?.role === "CANDIDATE") {
       router.replace("/candidate/dashboard");
     }
   }, [user, isLoading, isAuthenticated, router]);
@@ -31,9 +32,13 @@ export default function InterviewerLayout({
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        Loading...
+        <CodeSpinner />
       </div>
     );
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   return <>{children}</>;

@@ -74,6 +74,7 @@ export type getRoomDetailsResponse = {
       code: string;
       customInput: string;
     };
+    messages: MessageType[];
   };
 };
 
@@ -85,4 +86,16 @@ export type postJoinRoomResponse = {
 export type postEndInterviewResponse = {
   success: boolean;
   message: string;
+};
+
+export type MessageType = {
+  id: string;
+  message: string;
+  senderId: string;
+  roomId: string;
+  sender: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
 };

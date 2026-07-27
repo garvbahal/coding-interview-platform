@@ -9,6 +9,7 @@ import { registerLanguageHandlers } from "./language.handler.js";
 import { endInterviewHandler } from "./endInterview.handler.js";
 import { customInputHandler } from "./customInput.handler.js";
 import { SaveCustomInputHandler } from "./saveCustomInput.handler.js";
+import { sendMessageHandler } from "./sendmessage.handler.js";
 
 export const handleConnection = (socket: Socket) => {
   registerRoomHandlers(socket);
@@ -18,6 +19,7 @@ export const handleConnection = (socket: Socket) => {
   endInterviewHandler(socket);
   customInputHandler(socket);
   SaveCustomInputHandler(socket);
+  sendMessageHandler(socket);
 
   socket.on("disconnect", () => {
     const roomCode = socket.data.roomCode;

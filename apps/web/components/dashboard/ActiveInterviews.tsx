@@ -13,17 +13,21 @@ export const ActiveInterviews = ({
         Active Interviews
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {ActiveInterviewsData.map((activeRoom, i) => (
-          <ActiveInterviewCard
-            key={i}
-            title={activeRoom.problem.title}
-            difficulty={activeRoom.problem.difficulty}
-            language={activeRoom.state.language}
-            participants={activeRoom.participants.length}
-            roomCode={activeRoom.roomCode}
-            createdAt={activeRoom.createdAt}
-          />
-        ))}
+        {ActiveInterviewsData.length === 0 ? (
+          <>No Active Interviews</>
+        ) : (
+          ActiveInterviewsData.map((activeRoom, i) => (
+            <ActiveInterviewCard
+              key={i}
+              title={activeRoom.problem.title}
+              difficulty={activeRoom.problem.difficulty}
+              language={activeRoom.state.language}
+              participants={activeRoom.participants.length}
+              roomCode={activeRoom.roomCode}
+              createdAt={activeRoom.createdAt}
+            />
+          ))
+        )}
       </div>
     </section>
   );

@@ -266,6 +266,20 @@ export const getRoomDetails = async (req: Request, res: Response) => {
       });
     }
 
+    const messages = await prisma.message.findMany({
+      where: {
+        roomId: room.id,
+      },
+      include: {
+        sender: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    });
+
     return res.status(200).json({
       success: true,
       message: "Room Details fetched successfully",
@@ -284,6 +298,7 @@ export const getRoomDetails = async (req: Request, res: Response) => {
           code: room.state?.code,
           customInput: room.state?.customInput,
         },
+        messages,
       },
     });
   } catch (error) {

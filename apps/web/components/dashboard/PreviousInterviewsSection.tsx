@@ -49,6 +49,9 @@ export const PreviousInterviewsSection = ({
           </tbody>
         </table>
       </div>
+      {previousInterviewsData.length === 0 && (
+        <div className="flex justify-center mt-5">No Previous Interviews</div>
+      )}
     </section>
   );
 };

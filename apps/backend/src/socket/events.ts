@@ -14,4 +14,6 @@ export const SOCKET_EVENTS = {
   SAVE_CUSTOM_INPUT: "save-custom-input",
 
   SAVE_LANGUAGE: "save-language",
+  SEND_MESSAGE: "send-message",
+  NEW_MESSAGE: "new-message",
 } as const;

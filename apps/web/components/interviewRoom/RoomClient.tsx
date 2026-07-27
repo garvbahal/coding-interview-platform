@@ -10,22 +10,29 @@ import { useRoomSocket } from "../../hooks/useRoomSocket";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { CodeSpinner } from "../spinners/CodeSpinner";
+import { MessageType } from "../../types/room.types";
+import { ChatPopup } from "./ChatPopup";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export const RoomClient = ({ roomCode }: { roomCode: string }) => {
   const { data, isError, isPending, error } = useGetRoomDetails(roomCode);
+  const { user } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-
   const [language, setLanguage] = useState<Language>("cpp");
-
   const [code, setCode] = useState("");
-
   const [customInput, setCustomInput] = useState("");
+
+  const [messages, setMessages] = useState<MessageType[]>([]);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     if (!data) return;
     setLanguage(data.data.roomState.language as Language);
     setCode(data.data.roomState.code);
     setCustomInput(data.data.roomState.customInput);
+    setMessages(data.data.messages);
   }, [data]);
 
   const onReset = () => {
@@ -48,6 +55,9 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
     code,
     customInput,
     setCustomInput,
+    setMessages,
+    isChatOpen,
+    setUnreadCount,
   });
 
   if (isPending) {
@@ -64,7 +74,14 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
 
   return (
     <div className="bg-white h-screen flex flex-col overflow-hidden">
-      <RoomNavbar roomCode={roomCode} />
+      <RoomNavbar
+        unreadCount={unreadCount}
+        onChatClick={() => {
+          setIsChatOpen((prev) => !prev);
+          setUnreadCount(0);
+        }}
+        roomCode={roomCode}
+      />
       <div className="flex-1 flex overflow-hidden">
         <LeftPanel
           title={data.data.problem.title}
@@ -80,6 +97,15 @@ export const RoomClient = ({ roomCode }: { roomCode: string }) => {
           setCode={setCode}
           setLanguage={setLanguage}
           onReset={onReset}
+        />
+        <ChatPopup
+          open={isChatOpen}
+          messages={messages}
+          roomCode={roomCode}
+          currentUserId={user!.id}
+          onClose={() => {
+            setIsChatOpen(false);
+          }}
         />
       </div>
     </div>

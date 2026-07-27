@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { socket } from "../services/socket.service";
 import {
   CodeChangedType,
@@ -10,6 +10,7 @@ import {
 import { Language } from "../components/interviewRoom/constant";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { MessageType } from "../types/room.types";
 
 export const SOCKET_EVENTS = {
   JOIN_ROOM: "join-room",
@@ -27,6 +28,8 @@ export const SOCKET_EVENTS = {
   SAVE_CUSTOM_INPUT: "save-custom-input",
 
   SAVE_LANGUAGE: "save-language",
+  SEND_MESSAGE: "send-message",
+  NEW_MESSAGE: "new-message",
 } as const;
 
 interface useRoomSocketProps {
@@ -36,6 +39,9 @@ interface useRoomSocketProps {
   code: string;
   customInput: string;
   setCustomInput: (value: string) => void;
+  setMessages: Dispatch<SetStateAction<MessageType[]>>;
+  isChatOpen: boolean;
+  setUnreadCount: Dispatch<SetStateAction<number>>;
 }
 
 export const useRoomSocket = ({
@@ -45,6 +51,9 @@ export const useRoomSocket = ({
   code,
   customInput,
   setCustomInput,
+  setMessages,
+  isChatOpen,
+  setUnreadCount,
 }: useRoomSocketProps) => {
   const router = useRouter();
 
@@ -183,4 +192,20 @@ export const useRoomSocket = ({
 
     return () => clearTimeout(timer);
   }, [customInput]);
+
+  useEffect(() => {
+    const handleNewMessage = (data: MessageType) => {
+      setMessages((prev) => [...prev, data]);
+
+      if (!isChatOpen) {
+        setUnreadCount((prev) => prev + 1);
+      }
+    };
+
+    socket.on(SOCKET_EVENTS.NEW_MESSAGE, handleNewMessage);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.NEW_MESSAGE, handleNewMessage);
+    };
+  }, [isChatOpen]);
 };

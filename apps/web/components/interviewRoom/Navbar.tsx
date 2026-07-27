@@ -5,12 +5,19 @@ import { RootState } from "../../store";
 import { useEndInterview } from "../../hooks/useRooms";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 
 type RoomNavbarProps = {
   roomCode: string;
+  unreadCount: number;
+  onChatClick: () => void;
 };
 
-export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
+export const RoomNavbar = ({
+  roomCode,
+  unreadCount,
+  onChatClick,
+}: RoomNavbarProps) => {
   const userDetails = useSelector((state: RootState) => state.auth.user);
   const router = useRouter();
 
@@ -65,6 +72,21 @@ export const RoomNavbar = ({ roomCode }: RoomNavbarProps) => {
           Live
         </div>
       </div>
+      <button
+        onClick={onChatClick}
+        className="relative rounded-lg p-2 transition hover:bg-neutral-300 cursor-pointer"
+      >
+        <MessageCircle className="h-5 w-5" />
+
+        {unreadCount > 0 && (
+          <span
+            className="absolute right-1 top-1 flex h-5 min-w-5 items-center justify-center rounded-full  bg-red-500 x-1 text-[10px] font-semibold text-white
+      "
+          >
+            {unreadCount}
+          </span>
+        )}
+      </button>
       <div className="flex items-center gap-3">
         <button
           className="text-sm font-medium text-gray-600 border border-gray-300 px-4 py-1.5 rounded hover:bg-gray-50 cursor-pointer"

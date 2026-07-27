@@ -1,3 +1,8 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 export type ActiveInterviewCardProps = {
   title: string;
   difficulty: "EASY" | "MEDIUM" | "HARD";
@@ -15,6 +20,25 @@ export const ActiveInterviewCard = ({
   language,
   createdAt,
 }: ActiveInterviewCardProps) => {
+  const router = useRouter();
+  const date = new Date(createdAt);
+
+  const handleOpenInterviewButton = () => {
+    if (!roomCode) {
+      return;
+    }
+    router.replace(`/room/${roomCode}`);
+  };
+
+  const handleCopyButton = async () => {
+    try {
+      await navigator.clipboard.writeText(roomCode);
+      toast.success("Copied to clipboard");
+    } catch (error) {
+      toast.error("Failed to copy");
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-4">
@@ -37,8 +61,9 @@ export const ActiveInterviewCard = ({
             {roomCode}
           </span>
           <button
-            className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
             title="Copy Room Code"
+            onClick={handleCopyButton}
           >
             <svg
               className="w-5 h-5 text-gray-500"
@@ -60,10 +85,12 @@ export const ActiveInterviewCard = ({
       <div className="space-y-3 mb-6">
         <div className="flex items-center gap-2">
           <div
-            className={`w-2 h-2  rounded-full ${participants > 0 ? "bg-yellow-500" : "bg-green-500"}`}
+            className={`w-2 h-2  rounded-full ${participants <= 1 ? "bg-yellow-500" : "bg-green-500"}`}
           ></div>
           <span className="text-sm text-gray-600">
-            {participants > 0 ? "Candidate joined" : "Waiting for candidate..."}
+            {participants > 1
+              ? "Candidate Assigned"
+              : "Waiting for candidate..."}
           </span>
         </div>
         <div className="flex items-center justify-between text-sm">
@@ -72,11 +99,19 @@ export const ActiveInterviewCard = ({
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-500">Created</span>
-          <span className="text-gray-900">{createdAt}</span>
+          <span className="text-gray-900">
+            {date.toLocaleString("en-In", {
+              dateStyle: "long",
+              timeStyle: "short",
+            })}
+          </span>
         </div>
       </div>
 
-      <button className="w-full bg-black text-white py-2.5 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+      <button
+        className="w-full bg-black text-white py-2.5 rounded-lg font-medium hover:bg-gray-800 transition-colors cursor-pointer"
+        onClick={handleOpenInterviewButton}
+      >
         Open Interview
       </button>
     </div>

@@ -6,7 +6,6 @@ import { presenceService } from "../services/presence.service.js";
 export const registerRoomHandlers = (socket: Socket) => {
   socket.on(SOCKET_EVENTS.JOIN_ROOM, async (roomCode: string) => {
     try {
-      console.log(`${socket.user.name} is joining the room ${roomCode}`);
       //checking room exists or not
       const room = await prisma.room.findUnique({
         where: {

@@ -11,12 +11,11 @@ import { roomRouter } from "./routes/room.routes.js";
 import { ExecuteRouter } from "./routes/execute.routes.js";
 const app = express();
 
-console.log(process.env.CLIENT_URL);
-
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   }),
 );
 app.use(express.json());
@@ -28,7 +27,8 @@ app.use("/api/v1/rooms", roomRouter);
 const httpServer = createServer(app);
 
 initializeSocket(httpServer);
+const PORT = process.env.PORT || 8000;
 
-httpServer.listen(8000, () => {
+httpServer.listen(PORT, () => {
   console.log("HTTP Server is started at 8000 port");
 });

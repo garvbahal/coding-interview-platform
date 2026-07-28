@@ -124,7 +124,7 @@ export const login = async (req: Request, res: Response) => {
 
       res.cookie("auth-cookie", jwtToken, {
         httpOnly: true,
-        // secure: true,
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: "lax",
       });
@@ -213,7 +213,7 @@ export const googleAuth = async (req: Request, res: Response) => {
     //setting jwt cookie
     res.cookie("auth-cookie", jwtToken, {
       httpOnly: true,
-      //   secure: true,
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: "lax",
     });
@@ -248,7 +248,7 @@ export const getAuthDetails = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   res.clearCookie("auth-cookie", {
     httpOnly: true,
-    // secure: true,
+    secure: true,
     sameSite: "lax",
   });
 

@@ -7,7 +7,7 @@ export const sendMessageHandler = (socket: Socket) => {
     SOCKET_EVENTS.SEND_MESSAGE,
     async ({ message }: { message: string }) => {
       try {
-        console.log("Message is in socket");
+       
         const roomId = socket.data.roomId;
 
         if (!roomId) {
@@ -21,7 +21,7 @@ export const sendMessageHandler = (socket: Socket) => {
           return;
         }
 
-        console.log("creating message entry in db");
+      
 
         const newMessage = await prisma.message.create({
           data: {
@@ -39,7 +39,7 @@ export const sendMessageHandler = (socket: Socket) => {
           },
         });
 
-        console.log("Sending message to all persons");
+      
 
         socket.emit(SOCKET_EVENTS.NEW_MESSAGE, newMessage);
 

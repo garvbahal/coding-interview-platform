@@ -37,9 +37,9 @@ export const GoogleLoginButton = () => {
 
   return (
     <div>
-      <button className="mt-6  w-full rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-colors">
-        <GoogleLogin onSuccess={handleSuccess} />
-      </button>
+      <div className="mt-6  ">
+        <GoogleLogin onSuccess={handleSuccess} width="100%" />
+      </div>
     </div>
   );
 };

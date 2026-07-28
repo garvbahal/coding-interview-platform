@@ -38,7 +38,13 @@ export const GoogleLoginButton = () => {
   return (
     <div>
       <div className="mt-6  ">
-        <GoogleLogin onSuccess={handleSuccess} width="100%" size="large" />
+        <GoogleLogin
+          onSuccess={handleSuccess}
+          width={384}
+          theme="outline"
+          size="large"
+          shape="rectangular"
+        />
       </div>
     </div>
   );

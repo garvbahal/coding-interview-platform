@@ -126,7 +126,7 @@ export const login = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: "lax",
+        sameSite: "none",
       });
 
       return res.status(200).json({
@@ -215,7 +215,7 @@ export const googleAuth = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "lax",
+      sameSite: "none",
     });
 
     return res.status(200).json({
@@ -249,7 +249,7 @@ export const logout = async (req: Request, res: Response) => {
   res.clearCookie("auth-cookie", {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "none",
   });
 
   return res.status(201).json({

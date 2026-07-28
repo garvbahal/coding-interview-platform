@@ -77,7 +77,7 @@ export const LoginForm = () => {
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm"
           />
         </div>
-        <div className="flex items-center justify-between mt-2">
+        {/* <div className="flex items-center justify-between mt-2">
           <div className="flex items-center">
             <input
               id="remember-me"
@@ -97,7 +97,7 @@ export const LoginForm = () => {
               Forgot password?
             </a>
           </div>
-        </div>
+        </div> */}
         <button
           type="submit"
           disabled={isLoading}

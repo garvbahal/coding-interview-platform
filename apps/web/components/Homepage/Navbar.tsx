@@ -58,7 +58,7 @@ export const HomepageNavbar = () => {
               ></path>
             </svg>
           </div>
-          Coding Interviewer
+          CodeNest
         </Link>
         <div className="flex items-center gap-4 text-sm font-medium">
           {isLoading ? (

@@ -18,11 +18,10 @@ export const Footer = () => {
               ></path>
             </svg>
           </div>
-          Coding Interviewer
+          CodeNest
         </div>
         <p>
-          &copy; {new Date().getFullYear()} Coding Interviewer Platform.
-          Elevating technical hires.
+          &copy; {new Date().getFullYear()} CodeNest. Elevating technical hires.
         </p>
       </div>
     </footer>

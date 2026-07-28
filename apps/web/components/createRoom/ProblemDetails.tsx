@@ -5,6 +5,7 @@ import { TestCaseCard } from "./TestCaseCard";
 import { useCreateRoom } from "../../hooks/useRooms";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const ProblemDetails = () => {
   const [form, setForm] = useState({
@@ -107,6 +108,43 @@ export const ProblemDetails = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
+                Difficulty
+              </label>
+
+              <div className="flex gap-6">
+                {[
+                  { label: "Easy", value: "EASY" },
+                  { label: "Medium", value: "MEDIUM" },
+                  { label: "Hard", value: "HARD" },
+                ].map((difficulty) => (
+                  <label
+                    key={difficulty.value}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="difficulty"
+                      value={difficulty.value}
+                      checked={form.difficulty === difficulty.value}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          difficulty: e.target.value as
+                            | "EASY"
+                            | "MEDIUM"
+                            | "HARD",
+                        }))
+                      }
+                      className="accent-black"
+                    />
+
+                    <span>{difficulty.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Problem Description (Supports Markdown)
               </label>
               <textarea
@@ -147,9 +185,12 @@ export const ProblemDetails = () => {
         ))}
 
         <div className="p-6 border-t border-gray-200 bg-white flex justify-end gap-4">
-          <button className="px-6 py-2 rounded-md text-gray-600 font-medium hover:bg-gray-100 transition">
+          <Link
+            href={"/interviewer/dashboard"}
+            className="px-6 py-2 rounded-md text-gray-600 font-medium hover:bg-gray-100 transition"
+          >
             Cancel
-          </button>
+          </Link>
           <button
             className={`px-6 py-2 rounded-md bg-black text-white font-medium hover:bg-gray-800 transition ${isPending ? "cursor-not-allowed" : "cursor-pointer"} `}
             onClick={handleSubmit}

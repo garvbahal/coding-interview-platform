@@ -7,7 +7,6 @@ type DashboardNavbarPayload = {
 };
 
 export const DashboardNavbar = ({ role, name }: DashboardNavbarPayload) => {
-  
   return (
     <nav className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-8">
       <Link href={"/"} className="flex items-center gap-3">
@@ -26,7 +25,7 @@ export const DashboardNavbar = ({ role, name }: DashboardNavbarPayload) => {
             ></path>
           </svg>
         </div>
-        <span className="font-semibold text-lg">CodeInterview</span>
+        <span className="font-semibold text-lg">CodeNest</span>
       </Link>
 
       <ProfileDropdown name={name} role={role} />

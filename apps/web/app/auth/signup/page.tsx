@@ -1,6 +1,10 @@
 import { LeftPanel } from "../../../components/auth/LeftPanel";
 import { RightPanel } from "../../../components/auth/RightPanel";
 
+export const metadata = {
+  title: "Signup",
+};
+
 export default function Signup() {
   return (
     <div className="bg-white text-gray-900 antialiased selection:bg-gray-900 selection:text-white">

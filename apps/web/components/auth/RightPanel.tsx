@@ -38,9 +38,21 @@ export const RightPanel = ({ isSignup }: RightPanelProps) => {
       <Link href="/">
         <div className="mb-10 lg:hidden flex items-center gap-2 font-semibold text-xl tracking-tight text-gray-900">
           <div className="h-8 w-8 bg-black rounded-lg flex items-center justify-center text-white text-sm">
-            CI
+            <svg
+              className="w-5 h-5 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+              ></path>
+            </svg>
           </div>
-          Coding Interviewer
+          CodeNest
         </div>
       </Link>
 
